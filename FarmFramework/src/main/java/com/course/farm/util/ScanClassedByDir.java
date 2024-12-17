@@ -1,7 +1,7 @@
 package com.course.farm.util;
 
 
-import com.course.farm.annotation.ManualInitBean;
+import com.course.farm.annotation.FarmComponent;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,33 +9,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Objects;
 
-@ManualInitBean()
+@FarmComponent()
 public class ScanClassedByDir {
 
     // Method to recursively find classes in a directory
-    public List<String> findClassFilesInDirectory(String directoryPath) {
+    public static List<Class<?>> findClassFilesInDirectory(String directoryPath, String packageName) throws ClassNotFoundException {
 
-        List<String> classes = new ArrayList<>();
+        List<Class<?>> classes = new ArrayList<>();
         File dir = new File(directoryPath);
 
         // Check if the directory exists
         if (dir.exists() && dir.isDirectory()) {
-            File[] files = dir.listFiles();
-
-            // Iterate through all files and directories
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isDirectory()) {
-                        // Recursively go through subdirectories
-                        classes.addAll(findClassFilesInDirectory(file.getAbsolutePath()));
-                    } else if (file.getName().endsWith(".class")) {
-                        // If it's a .java file, check for classes
-                        classes.add(file.getAbsolutePath());
-                    }
-                }
-            }
+            getClasses(classes, dir, packageName);
         } else {
             System.err.println("The provided path is not a valid directory.");
         }
@@ -44,8 +30,8 @@ public class ScanClassedByDir {
     }
 
 
-    public List<String> findClassFilesInRoot(String classPath) throws IOException {
-        List<String> classes = new ArrayList<>();
+    public static List<Class<?>> findClassFilesInRoot(String classPath) throws IOException, ClassNotFoundException {
+        List<Class<?>> classes = new ArrayList<>();
 
         ClassLoader classLoader = new ClassLoader() {};
         Enumeration<URL> roots = classLoader.getResources(classPath);
@@ -53,18 +39,27 @@ public class ScanClassedByDir {
             URL url = roots.nextElement();
             File root = new File(url.getPath());
             if (root.exists() && root.isDirectory()) {
-                File[] files = root.listFiles();
-                if (files != null) {
-                    for (File file : files) {
-                        if (file.isDirectory()) {
-                            classes.addAll(findClassFilesInDirectory(file.getAbsolutePath()));
-                        } else if (file.getName().endsWith(".class")) {
-                            classes.add(file.getAbsolutePath());
-                        }
-                    }
-                }
+//                getClasses(classes, root);
             }
         }
         return classes;
+    }
+
+    private static void getClasses(List<Class<?>> classes, File root, String packageName) throws ClassNotFoundException {
+        File[] files = root.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    classes.addAll(findClassFilesInDirectory(file.getAbsolutePath(), packageName));
+                } else if (file.getName().endsWith(".class")) {
+                    String fileAbsolutePath = file.getAbsolutePath();
+                    String className = fileAbsolutePath.substring(fileAbsolutePath.indexOf("classes"))
+                            .substring(fileAbsolutePath.substring(fileAbsolutePath.indexOf("classes"))
+                                    .indexOf("/")+1).replace("/",".");
+                    className = className.substring(0, className.length()-6);
+                    classes.add(Class.forName(className));
+                }
+            }
+        }
     }
 }

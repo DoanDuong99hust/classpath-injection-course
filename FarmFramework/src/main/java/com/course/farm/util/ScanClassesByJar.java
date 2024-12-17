@@ -1,6 +1,6 @@
 package com.course.farm.util;
 
-import com.course.farm.annotation.ManualInitBean;
+import com.course.farm.annotation.FarmComponent;
 
 import java.io.*;
 import java.net.URL;
@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-@ManualInitBean
+@FarmComponent
 public class ScanClassesByJar {
 
     public List<String> findClassNames(String jarFilePath) throws IOException {
@@ -37,13 +37,12 @@ public class ScanClassesByJar {
         }
     }
 
-    public static Set<Class> getClassesFromJarFile(File jarFile) throws IOException, ClassNotFoundException {
+    public static List<Class<?>> getClassesFromJarFile(File jarFile) throws IOException, ClassNotFoundException {
         Set<String> classNames = getClassNamesFromJarFile(jarFile);
-        Set<Class> classes = new HashSet<>(classNames.size());
+        List<Class<?>> classes = new ArrayList<>(classNames.size());
         try (URLClassLoader classLoader = new URLClassLoader(new URL[]{jarFile.toURI().toURL()})) {
             for (String name : classNames) {
-                Class clazz = classLoader.loadClass(name); // Load the class by its name
-                classes.add(clazz);
+                classes.add(classLoader.loadClass(name));
             }
         }
         return classes;

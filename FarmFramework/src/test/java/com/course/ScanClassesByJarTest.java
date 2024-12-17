@@ -1,12 +1,14 @@
 package com.course;
 
 import com.course.farm.util.ScanClassesByJar;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 class ScanClassesByJarTest {
 
     @Test

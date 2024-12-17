@@ -1,7 +1,7 @@
 package com.course.customer;
 
-import com.course.farm.annotation.ManualInitBean;
+import com.course.farm.annotation.FarmComponent;
 
-@ManualInitBean
+@FarmComponent
 public class Test {
 }
