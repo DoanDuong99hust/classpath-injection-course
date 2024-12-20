@@ -12,6 +12,7 @@
         <module>FarmFramework</module>
         <module>customer</module>
         <module>simple-server</module>
+        <module>concurrency-programming</module>
     </modules>
     <dependencies>
         <dependency>
