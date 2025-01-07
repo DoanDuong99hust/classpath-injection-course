@@ -5,9 +5,6 @@ import java.util.List;
 
 public class Database {
 
-    private  indexStrategy;
-    private
-
     private static List<People> people = List.of(
             new People("Duong", 25),
             new People("Tung", 25),
