@@ -13,6 +13,7 @@
         <module>customer</module>
         <module>simple-server</module>
         <module>concurrency-programming</module>
+        <module>ooad</module>
     </modules>
     <dependencies>
         <dependency>
