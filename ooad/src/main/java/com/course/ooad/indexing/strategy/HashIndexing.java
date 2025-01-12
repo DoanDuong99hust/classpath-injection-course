@@ -16,6 +16,9 @@ public class HashIndexing implements IndexStrategy<Map<String, People>> {
         }
     }
 
+    public HashIndexing() {
+    }
+
     @Override
     public Map<String, People> getData() {
         return peopleMap;
