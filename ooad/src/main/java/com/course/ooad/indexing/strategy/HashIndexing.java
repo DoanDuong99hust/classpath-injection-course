@@ -1,26 +1,24 @@
 package com.course.ooad.indexing.strategy;
 
-import com.course.ooad.indexing.People;
+import com.course.ooad.indexing.entity.BaseEntity;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HashIndexing implements IndexStrategy<Map<String, People>> {
+public class HashIndexing<T extends BaseEntity> implements IndexStrategy<Map<Long, T>> {
 
-    Map<String, People> peopleMap = new HashMap<>();
+    private final Map<Long, T> dataMap = new HashMap<>();
 
-    public HashIndexing(List<People> data) {
-        for (People p : data) {
-            peopleMap.put(p.getName(), p);
-        }
+    public HashIndexing(List<T> data) {
+        data.forEach(item -> dataMap.put(item.getId(), item));
     }
 
     public HashIndexing() {
     }
 
     @Override
-    public Map<String, People> getData() {
-        return peopleMap;
+    public Map<Long, T> getData() {
+        return dataMap;
     }
 }

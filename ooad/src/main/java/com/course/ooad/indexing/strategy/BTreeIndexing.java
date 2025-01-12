@@ -1,26 +1,24 @@
 package com.course.ooad.indexing.strategy;
 
-import com.course.ooad.indexing.People;
+import com.course.ooad.indexing.entity.BaseEntity;
 
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class BTreeIndexing implements IndexStrategy<Map<String, People>> {
+public class BTreeIndexing<T extends BaseEntity> implements IndexStrategy<Map<Long, T>> {
 
-    private Map<String, People> mapData = new TreeMap<>();
+    private final Map<Long, T> mapData = new TreeMap<>();
 
-    public BTreeIndexing(List<People> peopleList) {
-        for (People people : peopleList) {
-            mapData.put(people.toString(), people);
-        }
+    public BTreeIndexing(List<T> data) {
+        data.forEach(item -> mapData.put(item.getId(), item));
     }
 
     public BTreeIndexing() {
     }
 
     @Override
-    public Map<String, People> getData() {
+    public Map<Long, T> getData() {
         return mapData;
     }
 }

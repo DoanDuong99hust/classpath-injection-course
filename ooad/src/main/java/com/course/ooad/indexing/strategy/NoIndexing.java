@@ -1,22 +1,22 @@
 package com.course.ooad.indexing.strategy;
 
-import com.course.ooad.indexing.People;
+import com.course.ooad.indexing.entity.BaseEntity;
 
 import java.util.List;
 
-public class NoIndexing implements IndexStrategy<List<People>>{
+public class NoIndexing<T extends BaseEntity> implements IndexStrategy<List<T>>{
 
-    private List<People> people;
+    private List<T> data;
 
-    public NoIndexing(List<People> people) {
-        this.people = people;
+    public NoIndexing(List<T> data) {
+        this.data = data;
     }
 
     public NoIndexing() {
     }
 
     @Override
-    public List<People> getData() {
-        return this.people;
+    public List<T> getData() {
+        return this.data;
     }
 }
