@@ -20,9 +20,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.course</groupId>
-            <artifactId>test-driven-design</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.10.2</version>
         </dependency>
     </dependencies>
 </project>
