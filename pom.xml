@@ -15,6 +15,7 @@
         <module>concurrency-programming</module>
         <module>ooad</module>
         <module>test-driven-design</module>
+        <module>algorithm</module>
     </modules>
     <dependencies>
         <dependency>
